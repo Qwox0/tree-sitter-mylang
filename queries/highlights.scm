@@ -8,6 +8,7 @@
 (fields (var_decl name: (ident) @variable.member))
 
 (var_decl ty: (ident) @type)
+(extern_decl ty: (ident) @type)
 (fn ret_ty: (ident) @type)
 (extern_decl ty: (fn body: (ident) @type))
 (ptr_ty pointee_ty: (ident) @type)

@@ -68,7 +68,7 @@ module.exports = grammar({
     // TODO: add the actual grammar rules
     source_file: $ => sep(repeat(";"), $._expr),
 
-    _expr: $ => choice(
+    _expr_except_block: $ => choice(
       $._ident,
       $._literal,
       $.ptr_ty,
@@ -78,7 +78,7 @@ module.exports = grammar({
       $.option_ty,
       $.fn,
       $.parenthesis,
-      $.block,
+      // $.block,
       $.struct_def,
       $.union_def,
       $.enum_def,
@@ -108,6 +108,11 @@ module.exports = grammar({
       $.continue,
       $.unsafe,
       "nil", // TODO: remove this
+    ),
+
+    _expr: $ => choice(
+      $._expr_except_block,
+      $.block,
     ),
 
     _ident: $ => choice(
@@ -150,12 +155,12 @@ module.exports = grammar({
         seq("(", optional(alias($._var_decl_list1, $.params)), ")")
       )),
       "->",
-      optional(field("ret_ty", $._expr)),
+      optional(field("ret_ty", $._expr_except_block)),
       field("body", $._expr),
     )),
 
     parenthesis: $ => prec(1, seq("(", $._expr, ")")),
-    block: $ => seq("{", sep(";", $._expr), "}"),
+    block: $ => seq("{", sep(optional(";"), $._expr), "}"),
 
     struct_def: $ => seq(
       "struct",
@@ -246,17 +251,16 @@ module.exports = grammar({
     )),
 
     /** use like this: `optional($._var_decl_list1)` */
-    _var_decl_list1: $ => prec(3, sep1(",", $.var_decl)),
-    var_decl: $ => prec(PREC.var_decl, seq(
+    _var_decl_list1: $ => prec(2, sep1(",", $.var_decl)),
+    var_decl: $ => prec.left(PREC.var_decl, seq(
       repeat(choice("pub", "mut", "rec")),
       field("name", $._ident),
       choice(
-        seq(":", field("ty", $._decl_ty)),
-        prec(PREC.assign + 1, seq(":", field("ty", $._decl_ty), choice(":", "="), field("default", $._expr))),
+        seq(":", field("ty", $._expr)),
+        seq(":", field("ty", $._expr), choice(token(prec(2, ":")), token(prec(2, "="))), field("default", $._expr)),
         seq(choice("::", ":="), field("default", $._expr)),
       ),
     )),
-    _decl_ty: $ => prec(PREC.decl_ty, field("ty", $._expr)),
 
     extern_decl: $ => seq(
       "extern",

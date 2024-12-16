@@ -18,6 +18,7 @@ error() {
 }
 
 #find ../mylang/ -name "*.mylang" | xargs cat > ./build/my_tmp_dev_file.mylang
+#cat ../aoc2024/day1.mylang > ./build/my_tmp_dev_file.mylang
 
 tree-sitter generate
 tree-sitter highlight ./build/my_tmp_dev_file.mylang

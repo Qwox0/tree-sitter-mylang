@@ -3128,10 +3128,6 @@
             "named": true
           },
           {
-            "type": "block",
-            "named": true
-          },
-          {
             "type": "boolean_literal",
             "named": true
           },
@@ -6669,7 +6665,7 @@
         ]
       },
       "ty": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
