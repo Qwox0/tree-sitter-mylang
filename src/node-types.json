@@ -116,6 +116,10 @@
             "named": true
           },
           {
+            "type": "pipe",
+            "named": true
+          },
+          {
             "type": "pos_initializer",
             "named": true
           },
@@ -306,6 +310,10 @@
             "named": true
           },
           {
+            "type": "pipe",
+            "named": true
+          },
+          {
             "type": "pos_initializer",
             "named": true
           },
@@ -470,6 +478,10 @@
         },
         {
           "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "pipe",
           "named": true
         },
         {
@@ -648,6 +660,10 @@
             "named": true
           },
           {
+            "type": "pipe",
+            "named": true
+          },
+          {
             "type": "pos_initializer",
             "named": true
           },
@@ -812,6 +828,10 @@
         },
         {
           "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "pipe",
           "named": true
         },
         {
@@ -986,6 +1006,10 @@
           "named": true
         },
         {
+          "type": "pipe",
+          "named": true
+        },
+        {
           "type": "pos_initializer",
           "named": true
         },
@@ -1154,6 +1178,10 @@
         },
         {
           "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "pipe",
           "named": true
         },
         {
@@ -1328,6 +1356,10 @@
           "named": true
         },
         {
+          "type": "pipe",
+          "named": true
+        },
+        {
           "type": "pos_initializer",
           "named": true
         },
@@ -1496,6 +1528,10 @@
         },
         {
           "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "pipe",
           "named": true
         },
         {
@@ -1691,6 +1727,10 @@
           "named": true
         },
         {
+          "type": "pipe",
+          "named": true
+        },
+        {
           "type": "pos_initializer",
           "named": true
         },
@@ -1863,6 +1903,10 @@
           },
           {
             "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "pipe",
             "named": true
           },
           {
@@ -2053,6 +2097,10 @@
           "named": true
         },
         {
+          "type": "pipe",
+          "named": true
+        },
+        {
           "type": "pos_initializer",
           "named": true
         },
@@ -2221,6 +2269,10 @@
         },
         {
           "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "pipe",
           "named": true
         },
         {
@@ -2399,6 +2451,10 @@
             "named": true
           },
           {
+            "type": "pipe",
+            "named": true
+          },
+          {
             "type": "pos_initializer",
             "named": true
           },
@@ -2475,34 +2531,13 @@
   {
     "type": "enum_def",
     "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "variants",
-            "named": true
-          }
-        ]
-      },
-      "ty": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "variants",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": false,
       "types": [
         {
-          "type": "variants",
+          "type": "variant",
           "named": true
         }
       ]
@@ -2639,6 +2674,10 @@
             "named": true
           },
           {
+            "type": "pipe",
+            "named": true
+          },
+          {
             "type": "pos_initializer",
             "named": true
           },
@@ -2704,7 +2743,7 @@
     "fields": {
       "val": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "array_initializer",
@@ -2812,6 +2851,10 @@
           },
           {
             "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "pipe",
             "named": true
           },
           {
@@ -3020,6 +3063,10 @@
             "named": true
           },
           {
+            "type": "pipe",
+            "named": true
+          },
+          {
             "type": "pos_initializer",
             "named": true
           },
@@ -3212,6 +3259,10 @@
             "named": true
           },
           {
+            "type": "pipe",
+            "named": true
+          },
+          {
             "type": "pos_initializer",
             "named": true
           },
@@ -3274,7 +3325,370 @@
   {
     "type": "for",
     "named": true,
-    "fields": {}
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_initializer",
+            "named": true
+          },
+          {
+            "type": "array_ty",
+            "named": true
+          },
+          {
+            "type": "assign",
+            "named": true
+          },
+          {
+            "type": "binop",
+            "named": true
+          },
+          {
+            "type": "binop_assign",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean_literal",
+            "named": true
+          },
+          {
+            "type": "break",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "char_literal",
+            "named": true
+          },
+          {
+            "type": "continue",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "enum_def",
+            "named": true
+          },
+          {
+            "type": "extern_decl",
+            "named": true
+          },
+          {
+            "type": "float_literal",
+            "named": true
+          },
+          {
+            "type": "fn",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "ident",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "index",
+            "named": true
+          },
+          {
+            "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "match",
+            "named": true
+          },
+          {
+            "type": "named_initializer",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": false
+          },
+          {
+            "type": "option_ty",
+            "named": true
+          },
+          {
+            "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "pos_initializer",
+            "named": true
+          },
+          {
+            "type": "postop",
+            "named": true
+          },
+          {
+            "type": "preop",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
+            "named": true
+          },
+          {
+            "type": "ptr_ty",
+            "named": true
+          },
+          {
+            "type": "range",
+            "named": true
+          },
+          {
+            "type": "return",
+            "named": true
+          },
+          {
+            "type": "slice_ty",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          },
+          {
+            "type": "struct_def",
+            "named": true
+          },
+          {
+            "type": "union_def",
+            "named": true
+          },
+          {
+            "type": "unsafe",
+            "named": true
+          },
+          {
+            "type": "var_decl",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          }
+        ]
+      },
+      "iter_var": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ident",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
+            "named": true
+          }
+        ]
+      },
+      "source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_initializer",
+            "named": true
+          },
+          {
+            "type": "array_ty",
+            "named": true
+          },
+          {
+            "type": "assign",
+            "named": true
+          },
+          {
+            "type": "binop",
+            "named": true
+          },
+          {
+            "type": "binop_assign",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean_literal",
+            "named": true
+          },
+          {
+            "type": "break",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "char_literal",
+            "named": true
+          },
+          {
+            "type": "continue",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "enum_def",
+            "named": true
+          },
+          {
+            "type": "extern_decl",
+            "named": true
+          },
+          {
+            "type": "float_literal",
+            "named": true
+          },
+          {
+            "type": "fn",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "ident",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "index",
+            "named": true
+          },
+          {
+            "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "match",
+            "named": true
+          },
+          {
+            "type": "named_initializer",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": false
+          },
+          {
+            "type": "option_ty",
+            "named": true
+          },
+          {
+            "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "pos_initializer",
+            "named": true
+          },
+          {
+            "type": "postop",
+            "named": true
+          },
+          {
+            "type": "preop",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
+            "named": true
+          },
+          {
+            "type": "ptr_ty",
+            "named": true
+          },
+          {
+            "type": "range",
+            "named": true
+          },
+          {
+            "type": "return",
+            "named": true
+          },
+          {
+            "type": "slice_ty",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          },
+          {
+            "type": "struct_def",
+            "named": true
+          },
+          {
+            "type": "union_def",
+            "named": true
+          },
+          {
+            "type": "unsafe",
+            "named": true
+          },
+          {
+            "type": "var_decl",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "if",
@@ -3390,6 +3804,10 @@
           },
           {
             "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "pipe",
             "named": true
           },
           {
@@ -3563,6 +3981,10 @@
             "named": true
           },
           {
+            "type": "pipe",
+            "named": true
+          },
+          {
             "type": "pos_initializer",
             "named": true
           },
@@ -3730,6 +4152,10 @@
           },
           {
             "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "pipe",
             "named": true
           },
           {
@@ -3909,6 +4335,10 @@
             "named": true
           },
           {
+            "type": "pipe",
+            "named": true
+          },
+          {
             "type": "pos_initializer",
             "named": true
           },
@@ -4076,6 +4506,10 @@
           },
           {
             "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "pipe",
             "named": true
           },
           {
@@ -4275,6 +4709,10 @@
             "named": true
           },
           {
+            "type": "pipe",
+            "named": true
+          },
+          {
             "type": "pos_initializer",
             "named": true
           },
@@ -4454,6 +4892,10 @@
         },
         {
           "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "pipe",
           "named": true
         },
         {
@@ -4643,6 +5085,10 @@
           "named": true
         },
         {
+          "type": "pipe",
+          "named": true
+        },
+        {
           "type": "pos_initializer",
           "named": true
         },
@@ -4699,6 +5145,554 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "pipe",
+    "named": true,
+    "fields": {
+      "source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_initializer",
+            "named": true
+          },
+          {
+            "type": "array_ty",
+            "named": true
+          },
+          {
+            "type": "assign",
+            "named": true
+          },
+          {
+            "type": "binop",
+            "named": true
+          },
+          {
+            "type": "binop_assign",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean_literal",
+            "named": true
+          },
+          {
+            "type": "break",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "char_literal",
+            "named": true
+          },
+          {
+            "type": "continue",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "enum_def",
+            "named": true
+          },
+          {
+            "type": "extern_decl",
+            "named": true
+          },
+          {
+            "type": "float_literal",
+            "named": true
+          },
+          {
+            "type": "fn",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "ident",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "index",
+            "named": true
+          },
+          {
+            "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "match",
+            "named": true
+          },
+          {
+            "type": "named_initializer",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": false
+          },
+          {
+            "type": "option_ty",
+            "named": true
+          },
+          {
+            "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "pos_initializer",
+            "named": true
+          },
+          {
+            "type": "postop",
+            "named": true
+          },
+          {
+            "type": "preop",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
+            "named": true
+          },
+          {
+            "type": "ptr_ty",
+            "named": true
+          },
+          {
+            "type": "range",
+            "named": true
+          },
+          {
+            "type": "return",
+            "named": true
+          },
+          {
+            "type": "slice_ty",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          },
+          {
+            "type": "struct_def",
+            "named": true
+          },
+          {
+            "type": "union_def",
+            "named": true
+          },
+          {
+            "type": "unsafe",
+            "named": true
+          },
+          {
+            "type": "var_decl",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "array_initializer",
+          "named": true
+        },
+        {
+          "type": "array_ty",
+          "named": true
+        },
+        {
+          "type": "assign",
+          "named": true
+        },
+        {
+          "type": "binop",
+          "named": true
+        },
+        {
+          "type": "binop_assign",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "boolean_literal",
+          "named": true
+        },
+        {
+          "type": "break",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "char_literal",
+          "named": true
+        },
+        {
+          "type": "continue",
+          "named": true
+        },
+        {
+          "type": "defer",
+          "named": true
+        },
+        {
+          "type": "dot",
+          "named": true
+        },
+        {
+          "type": "enum_def",
+          "named": true
+        },
+        {
+          "type": "extern_decl",
+          "named": true
+        },
+        {
+          "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "fn",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "index",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "match",
+          "named": true
+        },
+        {
+          "type": "named_initializer",
+          "named": true
+        },
+        {
+          "type": "option_ty",
+          "named": true
+        },
+        {
+          "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "pipe",
+          "named": true
+        },
+        {
+          "type": "pipe_for",
+          "named": true
+        },
+        {
+          "type": "pos_initializer",
+          "named": true
+        },
+        {
+          "type": "postop",
+          "named": true
+        },
+        {
+          "type": "preop",
+          "named": true
+        },
+        {
+          "type": "primitive_type",
+          "named": true
+        },
+        {
+          "type": "ptr_ty",
+          "named": true
+        },
+        {
+          "type": "range",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "slice_ty",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "struct_def",
+          "named": true
+        },
+        {
+          "type": "union_def",
+          "named": true
+        },
+        {
+          "type": "unsafe",
+          "named": true
+        },
+        {
+          "type": "var_decl",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pipe_for",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_initializer",
+            "named": true
+          },
+          {
+            "type": "array_ty",
+            "named": true
+          },
+          {
+            "type": "assign",
+            "named": true
+          },
+          {
+            "type": "binop",
+            "named": true
+          },
+          {
+            "type": "binop_assign",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean_literal",
+            "named": true
+          },
+          {
+            "type": "break",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "char_literal",
+            "named": true
+          },
+          {
+            "type": "continue",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "enum_def",
+            "named": true
+          },
+          {
+            "type": "extern_decl",
+            "named": true
+          },
+          {
+            "type": "float_literal",
+            "named": true
+          },
+          {
+            "type": "fn",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "ident",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "index",
+            "named": true
+          },
+          {
+            "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "match",
+            "named": true
+          },
+          {
+            "type": "named_initializer",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": false
+          },
+          {
+            "type": "option_ty",
+            "named": true
+          },
+          {
+            "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "pos_initializer",
+            "named": true
+          },
+          {
+            "type": "postop",
+            "named": true
+          },
+          {
+            "type": "preop",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
+            "named": true
+          },
+          {
+            "type": "ptr_ty",
+            "named": true
+          },
+          {
+            "type": "range",
+            "named": true
+          },
+          {
+            "type": "return",
+            "named": true
+          },
+          {
+            "type": "slice_ty",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          },
+          {
+            "type": "struct_def",
+            "named": true
+          },
+          {
+            "type": "union_def",
+            "named": true
+          },
+          {
+            "type": "unsafe",
+            "named": true
+          },
+          {
+            "type": "var_decl",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          }
+        ]
+      },
+      "iter_var": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ident",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -4815,6 +5809,10 @@
           },
           {
             "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "pipe",
             "named": true
           },
           {
@@ -5000,6 +5998,10 @@
           "named": true
         },
         {
+          "type": "pipe",
+          "named": true
+        },
+        {
           "type": "pos_initializer",
           "named": true
         },
@@ -5168,6 +6170,10 @@
         },
         {
           "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "pipe",
           "named": true
         },
         {
@@ -5343,6 +6349,10 @@
           },
           {
             "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "pipe",
             "named": true
           },
           {
@@ -5522,6 +6532,10 @@
             "named": true
           },
           {
+            "type": "pipe",
+            "named": true
+          },
+          {
             "type": "pos_initializer",
             "named": true
           },
@@ -5689,6 +6703,10 @@
           },
           {
             "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "pipe",
             "named": true
           },
           {
@@ -5861,6 +6879,10 @@
         },
         {
           "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "pipe",
           "named": true
         },
         {
@@ -6039,6 +7061,10 @@
             "named": true
           },
           {
+            "type": "pipe",
+            "named": true
+          },
+          {
             "type": "pos_initializer",
             "named": true
           },
@@ -6209,6 +7235,10 @@
         },
         {
           "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "pipe",
           "named": true
         },
         {
@@ -6418,6 +7448,10 @@
           "named": true
         },
         {
+          "type": "pipe",
+          "named": true
+        },
+        {
           "type": "pos_initializer",
           "named": true
         },
@@ -6593,6 +7627,10 @@
             "named": true
           },
           {
+            "type": "pipe",
+            "named": true
+          },
+          {
             "type": "pos_initializer",
             "named": true
           },
@@ -6777,6 +7815,10 @@
             "named": true
           },
           {
+            "type": "pipe",
+            "named": true
+          },
+          {
             "type": "pos_initializer",
             "named": true
           },
@@ -6837,12 +7879,12 @@
     }
   },
   {
-    "type": "variants",
+    "type": "variant",
     "named": true,
     "fields": {
       "name": {
-        "multiple": true,
-        "required": false,
+        "multiple": false,
+        "required": true,
         "types": [
           {
             "type": "ident",
@@ -6855,7 +7897,7 @@
         ]
       },
       "ty": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
@@ -6967,6 +8009,10 @@
             "named": true
           },
           {
+            "type": "pipe",
+            "named": true
+          },
+          {
             "type": "pos_initializer",
             "named": true
           },
@@ -7024,172 +8070,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "array_initializer",
-          "named": true
-        },
-        {
-          "type": "array_ty",
-          "named": true
-        },
-        {
-          "type": "assign",
-          "named": true
-        },
-        {
-          "type": "binop",
-          "named": true
-        },
-        {
-          "type": "binop_assign",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "break",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "char_literal",
-          "named": true
-        },
-        {
-          "type": "continue",
-          "named": true
-        },
-        {
-          "type": "defer",
-          "named": true
-        },
-        {
-          "type": "dot",
-          "named": true
-        },
-        {
-          "type": "enum_def",
-          "named": true
-        },
-        {
-          "type": "extern_decl",
-          "named": true
-        },
-        {
-          "type": "float_literal",
-          "named": true
-        },
-        {
-          "type": "fn",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "ident",
-          "named": true
-        },
-        {
-          "type": "if",
-          "named": true
-        },
-        {
-          "type": "index",
-          "named": true
-        },
-        {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
-          "type": "match",
-          "named": true
-        },
-        {
-          "type": "named_initializer",
-          "named": true
-        },
-        {
-          "type": "option_ty",
-          "named": true
-        },
-        {
-          "type": "parenthesis",
-          "named": true
-        },
-        {
-          "type": "pos_initializer",
-          "named": true
-        },
-        {
-          "type": "postop",
-          "named": true
-        },
-        {
-          "type": "preop",
-          "named": true
-        },
-        {
-          "type": "primitive_type",
-          "named": true
-        },
-        {
-          "type": "ptr_ty",
-          "named": true
-        },
-        {
-          "type": "range",
-          "named": true
-        },
-        {
-          "type": "return",
-          "named": true
-        },
-        {
-          "type": "slice_ty",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "struct_def",
-          "named": true
-        },
-        {
-          "type": "union_def",
-          "named": true
-        },
-        {
-          "type": "unsafe",
-          "named": true
-        },
-        {
-          "type": "var_decl",
-          "named": true
-        },
-        {
-          "type": "while",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -7306,6 +8186,10 @@
           },
           {
             "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "pipe",
             "named": true
           },
           {
@@ -7476,6 +8360,10 @@
           },
           {
             "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "pipe",
             "named": true
           },
           {
@@ -7803,6 +8691,10 @@
     "named": false
   },
   {
+    "type": "in",
+    "named": false
+  },
+  {
     "type": "integer_literal",
     "named": true
   },
@@ -7859,7 +8751,15 @@
     "named": false
   },
   {
+    "type": "|",
+    "named": false
+  },
+  {
     "type": "|=",
+    "named": false
+  },
+  {
+    "type": "|>",
     "named": false
   },
   {

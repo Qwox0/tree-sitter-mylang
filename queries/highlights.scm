@@ -4,8 +4,6 @@
 
 (ident) @variable
 ; "self" @variable.builtin
-(params (var_decl name: (ident) @variable.parameter))
-(fields (var_decl name: (ident) @variable.member))
 
 (var_decl ty: (ident) @type)
 (extern_decl ty: (ident) @type)
@@ -14,6 +12,7 @@
 (ptr_ty pointee_ty: (ident) @type)
 (slice_ty elem_ty: (ident) @type)
 (array_ty elem_ty: (ident) @type)
+(variant ty: (ident) @type)
 (primitive_type) @type.builtin
 
 (var_decl
@@ -25,6 +24,20 @@
 (extern_decl
   name: (ident) @function
   ty: (fn))
+
+(params (var_decl name: (ident) @variable.parameter))
+(fields (var_decl name: (ident) @variable.member))
+(variant name: (ident) @constant)
+
+(pos_initializer
+  lhs: (ident) @type
+  (#match? @type "^[A-Z]"))
+(named_initializer
+  lhs: (ident) @type
+  (#match? @type "^[A-Z]"))
+(named_initializer
+  (field
+    var: (ident) @variable.member))
 
 ; Assume all-caps names are constants
 ((ident) @constant
@@ -61,6 +74,7 @@
 
 
 (string_literal) @string
+;[ "\\n" ] @string.escape
 ; (raw_string_literal) @string
 
 (char_literal) @character
@@ -73,9 +87,9 @@
 
 (call
   fn: (ident) @function.call)
-; (call_expression
-;   function: (field_expression
-;     field: (field_identifier) @function.method))
+(call
+  fn: (dot
+    rhs: (ident) @function.method))
 ; (call_expression
 ;   function: (scoped_identifier
 ;     "::"
@@ -120,7 +134,7 @@
   "&="
   "^"
   "^="
-  ; "|"
+  "|"
   "|="
   "=="
   "!="
@@ -149,18 +163,25 @@
   "struct"
   "union"
 ] @keyword.type
+
 [
   "extern"
   "pub"
   "mut"
   "rec"
 ] @keyword.modifier
+
 [ "for" "while" ] @keyword.repeat
+(for "in" @keyword)
+
 "return" @keyword.return
+
 [ "if" "else" ] @keyword.conditional
+
 [
   "match"
   "defer"
+  "do"
   "break"
   "continue"
   "unsafe"
@@ -183,6 +204,7 @@
   "::"
   ":="
   "->"
+  "|>"
   ":"
   "="
   "."

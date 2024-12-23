@@ -8,8 +8,9 @@
 // @ts-check
 
 const PREC = {
-  postop: 22,
-  preop: 21,
+  postop: 40,
+  preop: 30,
+  initializer_with_lhs: 21,
   initializer: 20,
   binop_mul: 19,
   binop_add: 18,
@@ -20,8 +21,8 @@ const PREC = {
   binop_cmp: 13,
   binop_and: 12,
   binop_or: 11,
-  range: 10,
-  // todo binop
+  range_with_start: 10,
+  range: 9,
   decl_ty: 4,
   pipe: 4,
   assign: 3,
@@ -52,15 +53,7 @@ module.exports = grammar({
     $._error_sentinel,
   ],
 
-  conflicts: $ => [[
-    $.pos_initializer,
-  ], [
-    $.named_initializer,
-  ], [
-    $.array_initializer,
-  ], [
-    $.range,
-  ]],
+  conflicts: $ => [],
 
   word: $ => $._ident_like,
 
@@ -68,7 +61,7 @@ module.exports = grammar({
     // TODO: add the actual grammar rules
     source_file: $ => sep(repeat(";"), $._expr),
 
-    _expr_except_block: $ => choice(
+    _expr_except_block: $ => prec(-1, choice(
       $._ident,
       $._literal,
       $.ptr_ty,
@@ -101,14 +94,14 @@ module.exports = grammar({
       $.for,
       $.while,
       // catch
-      // pipe?
+      $.pipe,
       $.defer,
       $.return,
       $.break,
       $.continue,
       $.unsafe,
       "nil", // TODO: remove this
-    ),
+    )),
 
     _expr: $ => choice(
       $._expr_except_block,
@@ -136,7 +129,7 @@ module.exports = grammar({
       $.integer_literal,
       $.float_literal,
     ),
-    char_literal: _ => seq("'", /./, "'"),
+    char_literal: _ => seq("'", /\\?./, "'"),
     string_literal: _ => seq("\"", /[^"]*/, "\""),
 
     boolean_literal: _ => choice("true", "false"),
@@ -159,61 +152,61 @@ module.exports = grammar({
       field("body", $._expr),
     )),
 
-    parenthesis: $ => prec(1, seq("(", $._expr, ")")),
+    parenthesis: $ => prec(0, seq("(", $._expr, ")")),
     block: $ => seq("{", sep(optional(";"), $._expr), "}"),
 
     struct_def: $ => seq(
       "struct",
       "{",
-      optional(alias($._var_decl_list1, $.fields)),
+      alias(optional($._var_decl_list1), $.fields),
       "}",
     ),
     union_def: $ => seq(
       "union",
       "{",
-      optional(alias($._var_decl_list1, $.fields)),
+      alias(optional($._var_decl_list1), $.fields),
       "}",
     ),
     enum_def: $ => seq(
       "enum",
       "{",
-      alias(sep(",", seq(
-        field("name", $._ident),
-        optional(seq("(", field("ty", $._expr), ")")),
-      )), $.variants),
+      sep(",", alias($._enum_def_variant, $.variant)),
       "}",
     ),
+    _enum_def_variant: $ => seq(
+      field("name", $._ident),
+      optional(seq("(", field("ty", $._expr), ")")),
+    ),
 
-    pos_initializer: $ => prec(PREC.initializer, seq(
-      optional(field("lhs", $._expr)),
+    pos_initializer: $ => initializer(
+      field("lhs", $._expr),
       ".(",
       sep(",", alias($.arg, $.field)),
       ")",
-    )),
-    named_initializer: $ => prec(PREC.initializer, seq(
-      optional(field("lhs", $._expr)),
+    ),
+    named_initializer: $ => initializer(
+      field("lhs", $._expr),
       ".{",
-      sep(",", alias($.arg, $.field)),
+      sep(",", alias($._named_initializer_arg, $.field)),
       "}",
-    )),
-    array_initializer: $ => prec(PREC.initializer, seq(
-      optional(field("lhs", $._expr)),
+    ),
+    _named_initializer_arg: $ => seq(field("var", $._ident), optional(seq("=", field("val", $._expr)))),
+    array_initializer: $ => initializer(
+      field("lhs", $._expr),
       ".[",
       sep(",", $._expr),
       "]",
-    )),
+    ),
 
     //dot: $ => prec(PREC.postop, seq(optional($._expr), ".", $._ident)),
     dot: $ => prec(PREC.postop, seq(field("lhs", $._expr), ".", field("rhs", $._ident))),
     index: $ => prec(PREC.postop, seq(field("lhs", $._expr), "[", field("idx", $._expr), "]")),
-    call: $ => prec(PREC.postop,
-      seq(
-        field("fn", $._expr),
-        "(",
-        sep(",", $.arg),
-        ")",
-      ),
-    ),
+    call: $ => prec(PREC.postop, seq(
+      field("fn", $._expr),
+      token(prec(2, "(")),
+      sep(",", $.arg),
+      ")",
+    )),
     arg: $ => choice(
       field("val", $._expr),
       prec(2, seq(field("var", $._ident), "=", field("val", $._expr))),
@@ -233,13 +226,16 @@ module.exports = grammar({
       prec.left(PREC.binop_shift, seq($._expr, choice("<<", ">>"), $._expr)),
       prec.left(PREC.binop_bitand, seq($._expr, "&", $._expr)),
       prec.left(PREC.binop_bitxor, seq($._expr, "^", $._expr)),
-      // prec.left(PREC.binop_bitor, seq($._expr, choice("|"), $._expr)), // TODO: fix conflict with pipe operator
+      prec.left(PREC.binop_bitor, seq($._expr, "|", $._expr)),
       prec.left(PREC.binop_cmp, seq($._expr, choice("==", "!=", "<", "<=", ">", ">="), $._expr)),
       prec.left(PREC.binop_and, seq($._expr, "&&", $._expr)),
       prec.left(PREC.binop_or, seq($._expr, "||", $._expr)),
     ),
-    range: $ => prec.left(PREC.range, seq(
-      optional(field("start", $._expr)),
+    range: $ => choice(
+      prec(PREC.range_with_start, seq(field("start", $._expr), $._range_tail)),
+      prec(PREC.range, $._range_tail),
+    ),
+    _range_tail: $ => prec.right(PREC.range, seq(
       choice("..", "..="),
       optional(field("end", $._expr)),
     )),
@@ -283,7 +279,11 @@ module.exports = grammar({
 
     for: $ => seq(
       "for",
-      "TODO",
+      field("iter_var", $._ident),
+      "in",
+      field("source", $._expr),
+      optional("do"),
+      field("body", $._expr),
     ),
     while: $ => seq(
       "while",
@@ -293,7 +293,20 @@ module.exports = grammar({
     ),
 
     // catch
-    // pipe
+    pipe: $ => prec.left(PREC.pipe, seq(
+      field("source", $._expr),
+      "|>",
+      choice(
+        $.pipe_for,
+        $._expr,
+      ),
+    )),
+    pipe_for: $ => seq(
+      "for",
+      field("iter_var", $._ident),
+      optional("do"),
+      field("body", $._expr),
+    ),
 
     defer: $ => seq("defer", $._expr),
     return: $ => seq("return", $._expr),
@@ -343,10 +356,29 @@ module.exports = grammar({
   }
 });
 
+/**
+ * @param {RuleOrLiteral} sep
+ * @param {RuleOrLiteral} rule
+ */
 function sep1(sep, rule) {
   return seq(rule, repeat(seq(sep, rule)), optional(sep));
 }
 
+/**
+ * @param {RuleOrLiteral} sep
+ * @param {RuleOrLiteral} rule
+ */
 function sep(sep, rule) {
   return optional(sep1(sep, rule));
+}
+
+/**
+ * @param {RuleOrLiteral} lhs
+ * @param {...RuleOrLiteral} body
+ */
+function initializer(lhs, ...body) {
+  return choice(
+    prec(PREC.initializer_with_lhs, seq(lhs, ...body)),
+    prec(PREC.initializer, seq(...body)),
+  )
 }
