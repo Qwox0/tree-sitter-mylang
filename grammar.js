@@ -313,8 +313,8 @@ module.exports = grammar({
 
     defer: $ => seq("defer", $._expr),
     return: $ => seq("return", $._expr),
-    break: $ => seq("break", $._expr),
-    continue: $ => seq("continue", $._expr),
+    break: $ => prec.right(seq("break", optional($._expr))),
+    continue: $ => prec.right(seq("continue", optional($._expr))),
     unsafe: $ => seq("unsafe", $._expr),
 
     // -------
