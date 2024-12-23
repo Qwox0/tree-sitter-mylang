@@ -74,6 +74,7 @@
 
 
 (string_literal) @string
+(multilinestring_literal) @string
 ;[ "\\n" ] @string.escape
 ; (raw_string_literal) @string
 

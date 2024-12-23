@@ -125,12 +125,15 @@ module.exports = grammar({
     _literal: $ => choice(
       $.char_literal,
       $.string_literal,
+      $.multilinestring_literal,
       $.boolean_literal,
       $.integer_literal,
       $.float_literal,
     ),
-    char_literal: _ => seq("'", /\\?./, "'"),
+    char_literal: _ => /'\\?.'/,
     string_literal: _ => seq("\"", /[^"]*/, "\""),
+    multilinestring_literal: $ => prec.right(sep1($._newline, seq("\\\\", /.*/))),
+    _newline: _ => /\n|\r|\r\n/,
 
     boolean_literal: _ => choice("true", "false"),
     integer_literal: _ => /-?\d+/,

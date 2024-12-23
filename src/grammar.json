@@ -289,6 +289,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "multilinestring_literal"
+        },
+        {
+          "type": "SYMBOL",
           "name": "boolean_literal"
         },
         {
@@ -302,21 +306,8 @@
       ]
     },
     "char_literal": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "'"
-        },
-        {
-          "type": "PATTERN",
-          "value": "\\\\?."
-        },
-        {
-          "type": "STRING",
-          "value": "'"
-        }
-      ]
+      "type": "PATTERN",
+      "value": "'\\\\?.'"
     },
     "string_literal": {
       "type": "SEQ",
@@ -334,6 +325,69 @@
           "value": "\""
         }
       ]
+    },
+    "multilinestring_literal": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\\\\"
+              },
+              {
+                "type": "PATTERN",
+                "value": ".*"
+              }
+            ]
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_newline"
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "\\\\"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": ".*"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_newline"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "_newline": {
+      "type": "PATTERN",
+      "value": "\\n|\\r|\\r\\n"
     },
     "boolean_literal": {
       "type": "CHOICE",

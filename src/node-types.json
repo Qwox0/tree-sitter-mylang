@@ -100,6 +100,10 @@
             "named": true
           },
           {
+            "type": "multilinestring_literal",
+            "named": true
+          },
+          {
             "type": "named_initializer",
             "named": true
           },
@@ -294,6 +298,10 @@
             "named": true
           },
           {
+            "type": "multilinestring_literal",
+            "named": true
+          },
+          {
             "type": "named_initializer",
             "named": true
           },
@@ -466,6 +474,10 @@
         },
         {
           "type": "match",
+          "named": true
+        },
+        {
+          "type": "multilinestring_literal",
           "named": true
         },
         {
@@ -644,6 +656,10 @@
             "named": true
           },
           {
+            "type": "multilinestring_literal",
+            "named": true
+          },
+          {
             "type": "named_initializer",
             "named": true
           },
@@ -816,6 +832,10 @@
         },
         {
           "type": "match",
+          "named": true
+        },
+        {
+          "type": "multilinestring_literal",
           "named": true
         },
         {
@@ -994,6 +1014,10 @@
           "named": true
         },
         {
+          "type": "multilinestring_literal",
+          "named": true
+        },
+        {
           "type": "named_initializer",
           "named": true
         },
@@ -1166,6 +1190,10 @@
         },
         {
           "type": "match",
+          "named": true
+        },
+        {
+          "type": "multilinestring_literal",
           "named": true
         },
         {
@@ -1344,6 +1372,10 @@
           "named": true
         },
         {
+          "type": "multilinestring_literal",
+          "named": true
+        },
+        {
           "type": "named_initializer",
           "named": true
         },
@@ -1516,6 +1548,10 @@
         },
         {
           "type": "match",
+          "named": true
+        },
+        {
+          "type": "multilinestring_literal",
           "named": true
         },
         {
@@ -1715,6 +1751,10 @@
           "named": true
         },
         {
+          "type": "multilinestring_literal",
+          "named": true
+        },
+        {
           "type": "named_initializer",
           "named": true
         },
@@ -1890,6 +1930,10 @@
             "named": true
           },
           {
+            "type": "multilinestring_literal",
+            "named": true
+          },
+          {
             "type": "named_initializer",
             "named": true
           },
@@ -1978,11 +2022,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "char_literal",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "continue",
@@ -2082,6 +2121,10 @@
         },
         {
           "type": "match",
+          "named": true
+        },
+        {
+          "type": "multilinestring_literal",
           "named": true
         },
         {
@@ -2260,6 +2303,10 @@
           "named": true
         },
         {
+          "type": "multilinestring_literal",
+          "named": true
+        },
+        {
           "type": "named_initializer",
           "named": true
         },
@@ -2432,6 +2479,10 @@
           },
           {
             "type": "match",
+            "named": true
+          },
+          {
+            "type": "multilinestring_literal",
             "named": true
           },
           {
@@ -2658,6 +2709,10 @@
             "named": true
           },
           {
+            "type": "multilinestring_literal",
+            "named": true
+          },
+          {
             "type": "named_initializer",
             "named": true
           },
@@ -2835,6 +2890,10 @@
           },
           {
             "type": "match",
+            "named": true
+          },
+          {
+            "type": "multilinestring_literal",
             "named": true
           },
           {
@@ -3047,6 +3106,10 @@
             "named": true
           },
           {
+            "type": "multilinestring_literal",
+            "named": true
+          },
+          {
             "type": "named_initializer",
             "named": true
           },
@@ -3243,6 +3306,10 @@
             "named": true
           },
           {
+            "type": "multilinestring_literal",
+            "named": true
+          },
+          {
             "type": "named_initializer",
             "named": true
           },
@@ -3420,6 +3487,10 @@
           },
           {
             "type": "match",
+            "named": true
+          },
+          {
+            "type": "multilinestring_literal",
             "named": true
           },
           {
@@ -3611,6 +3682,10 @@
             "named": true
           },
           {
+            "type": "multilinestring_literal",
+            "named": true
+          },
+          {
             "type": "named_initializer",
             "named": true
           },
@@ -3791,6 +3866,10 @@
             "named": true
           },
           {
+            "type": "multilinestring_literal",
+            "named": true
+          },
+          {
             "type": "named_initializer",
             "named": true
           },
@@ -3965,6 +4044,10 @@
             "named": true
           },
           {
+            "type": "multilinestring_literal",
+            "named": true
+          },
+          {
             "type": "named_initializer",
             "named": true
           },
@@ -4136,6 +4219,10 @@
           },
           {
             "type": "match",
+            "named": true
+          },
+          {
+            "type": "multilinestring_literal",
             "named": true
           },
           {
@@ -4319,6 +4406,10 @@
             "named": true
           },
           {
+            "type": "multilinestring_literal",
+            "named": true
+          },
+          {
             "type": "named_initializer",
             "named": true
           },
@@ -4493,6 +4584,10 @@
             "named": true
           },
           {
+            "type": "multilinestring_literal",
+            "named": true
+          },
+          {
             "type": "named_initializer",
             "named": true
           },
@@ -4589,6 +4684,11 @@
   },
   {
     "type": "match",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "multilinestring_literal",
     "named": true,
     "fields": {}
   },
@@ -4690,6 +4790,10 @@
           },
           {
             "type": "match",
+            "named": true
+          },
+          {
+            "type": "multilinestring_literal",
             "named": true
           },
           {
@@ -4883,6 +4987,10 @@
           "named": true
         },
         {
+          "type": "multilinestring_literal",
+          "named": true
+        },
+        {
           "type": "named_initializer",
           "named": true
         },
@@ -5073,6 +5181,10 @@
           "named": true
         },
         {
+          "type": "multilinestring_literal",
+          "named": true
+        },
+        {
           "type": "named_initializer",
           "named": true
         },
@@ -5248,6 +5360,10 @@
             "named": true
           },
           {
+            "type": "multilinestring_literal",
+            "named": true
+          },
+          {
             "type": "named_initializer",
             "named": true
           },
@@ -5420,6 +5536,10 @@
         },
         {
           "type": "match",
+          "named": true
+        },
+        {
+          "type": "multilinestring_literal",
           "named": true
         },
         {
@@ -5599,6 +5719,10 @@
           },
           {
             "type": "match",
+            "named": true
+          },
+          {
+            "type": "multilinestring_literal",
             "named": true
           },
           {
@@ -5796,6 +5920,10 @@
             "named": true
           },
           {
+            "type": "multilinestring_literal",
+            "named": true
+          },
+          {
             "type": "named_initializer",
             "named": true
           },
@@ -5986,6 +6114,10 @@
           "named": true
         },
         {
+          "type": "multilinestring_literal",
+          "named": true
+        },
+        {
           "type": "named_initializer",
           "named": true
         },
@@ -6161,6 +6293,10 @@
           "named": true
         },
         {
+          "type": "multilinestring_literal",
+          "named": true
+        },
+        {
           "type": "named_initializer",
           "named": true
         },
@@ -6333,6 +6469,10 @@
           },
           {
             "type": "match",
+            "named": true
+          },
+          {
+            "type": "multilinestring_literal",
             "named": true
           },
           {
@@ -6516,6 +6656,10 @@
             "named": true
           },
           {
+            "type": "multilinestring_literal",
+            "named": true
+          },
+          {
             "type": "named_initializer",
             "named": true
           },
@@ -6687,6 +6831,10 @@
           },
           {
             "type": "match",
+            "named": true
+          },
+          {
+            "type": "multilinestring_literal",
             "named": true
           },
           {
@@ -6870,6 +7018,10 @@
           "named": true
         },
         {
+          "type": "multilinestring_literal",
+          "named": true
+        },
+        {
           "type": "named_initializer",
           "named": true
         },
@@ -7042,6 +7194,10 @@
           },
           {
             "type": "match",
+            "named": true
+          },
+          {
+            "type": "multilinestring_literal",
             "named": true
           },
           {
@@ -7223,6 +7379,10 @@
         },
         {
           "type": "match",
+          "named": true
+        },
+        {
+          "type": "multilinestring_literal",
           "named": true
         },
         {
@@ -7436,6 +7596,10 @@
           "named": true
         },
         {
+          "type": "multilinestring_literal",
+          "named": true
+        },
+        {
           "type": "named_initializer",
           "named": true
         },
@@ -7608,6 +7772,10 @@
           },
           {
             "type": "match",
+            "named": true
+          },
+          {
+            "type": "multilinestring_literal",
             "named": true
           },
           {
@@ -7796,6 +7964,10 @@
           },
           {
             "type": "match",
+            "named": true
+          },
+          {
+            "type": "multilinestring_literal",
             "named": true
           },
           {
@@ -7993,6 +8165,10 @@
             "named": true
           },
           {
+            "type": "multilinestring_literal",
+            "named": true
+          },
+          {
             "type": "named_initializer",
             "named": true
           },
@@ -8173,6 +8349,10 @@
             "named": true
           },
           {
+            "type": "multilinestring_literal",
+            "named": true
+          },
+          {
             "type": "named_initializer",
             "named": true
           },
@@ -8347,6 +8527,10 @@
             "named": true
           },
           {
+            "type": "multilinestring_literal",
+            "named": true
+          },
+          {
             "type": "named_initializer",
             "named": true
           },
@@ -8460,10 +8644,6 @@
   },
   {
     "type": "&=",
-    "named": false
-  },
-  {
-    "type": "'",
     "named": false
   },
   {
@@ -8627,6 +8807,10 @@
     "named": false
   },
   {
+    "type": "\\\\",
+    "named": false
+  },
+  {
     "type": "]",
     "named": false
   },
@@ -8641,6 +8825,10 @@
   {
     "type": "break",
     "named": false
+  },
+  {
+    "type": "char_literal",
+    "named": true
   },
   {
     "type": "continue",
