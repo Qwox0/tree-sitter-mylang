@@ -27,6 +27,7 @@
 
 (params (var_decl name: (ident) @variable.parameter))
 (fields (var_decl name: (ident) @variable.member))
+(dot rhs: (ident) @variable.member)
 (variant name: (ident) @constant)
 
 (pos_initializer

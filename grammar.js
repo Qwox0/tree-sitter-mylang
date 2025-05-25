@@ -151,8 +151,13 @@ module.exports = grammar({
         seq("(", optional(alias($._var_decl_list1, $.params)), ")")
       )),
       "->",
-      optional(field("ret_ty", $._expr_except_block)),
-      field("body", $._expr),
+      choice(
+        field("body", $._expr),
+        prec(-1, seq(
+          field("ret_ty", $._expr_except_block),
+          field("body", $._expr),
+        )),
+      )
     )),
 
     parenthesis: $ => prec(0, seq("(", $._expr, ")")),
@@ -173,12 +178,13 @@ module.exports = grammar({
     enum_def: $ => seq(
       "enum",
       "{",
-      sep(",", alias($._enum_def_variant, $.variant)),
+      sep(choice(",", ";"), alias($._enum_def_variant, $.variant)),
       "}",
     ),
     _enum_def_variant: $ => seq(
       field("name", $._ident),
       optional(seq("(", field("ty", $._expr), ")")),
+      optional(seq("=", field("tag", $._expr)))
     ),
 
     pos_initializer: $ => initializer(
@@ -221,7 +227,11 @@ module.exports = grammar({
     )),
     postop: $ => prec.left(PREC.postop, seq(
       $._expr,
-      choice(".&", seq(".&", "mut"), ".*", "?"),
+      choice(
+        prec.right(seq(".&", optional("mut"))),
+        ".*",
+        "?",
+      ),
     )),
     binop: $ => choice(
       prec.left(PREC.binop_mul, seq($._expr, choice("*", "/", "%"), $._expr)),
@@ -250,7 +260,7 @@ module.exports = grammar({
     )),
 
     /** use like this: `optional($._var_decl_list1)` */
-    _var_decl_list1: $ => prec(2, sep1(",", $.var_decl)),
+    _var_decl_list1: $ => prec(2, sep1(choice(",", ";"), $.var_decl)),
     var_decl: $ => prec.left(PREC.var_decl, seq(
       repeat(choice("pub", "mut", "rec")),
       field("name", $._ident),

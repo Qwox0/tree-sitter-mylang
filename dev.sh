@@ -20,6 +20,11 @@ error() {
 #find ../mylang/ -name "*.mylang" | xargs cat > ./build/my_tmp_dev_file.mylang
 #cat ../aoc2024/day1.mylang > ./build/my_tmp_dev_file.mylang
 
+info "generating ..."
 tree-sitter generate
-tree-sitter highlight ./build/my_tmp_dev_file.mylang
+
+info "parse example ..."
 tree-sitter parse ./build/my_tmp_dev_file.mylang
+
+info "highlight example ..."
+tree-sitter highlight ./build/my_tmp_dev_file.mylang
