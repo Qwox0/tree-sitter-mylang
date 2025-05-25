@@ -115,6 +115,13 @@
 ; (function_item (identifier) @function)
 ; (function_signature_item (identifier) @function)
 
+; Directives
+
+(directive
+  "#" @keyword.directive
+  name: (ident) @keyword.directive)
+
+
 ; Operator
 
 [

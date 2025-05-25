@@ -71,7 +71,7 @@ module.exports = grammar({
     // TODO: add the actual grammar rules
     source_file: $ => sep(repeat(";"), $._expr),
 
-    _expr_except_block: $ => prec(-1, choice(
+    _value: $ => choice(
       $._ident,
       $._literal,
       $.ptr_ty,
@@ -88,6 +88,10 @@ module.exports = grammar({
       $.pos_initializer,
       $.named_initializer,
       $.array_initializer,
+    ),
+
+    _expr_except_block: $ => prec(-1, choice(
+      $._value,
       $.dot,
       $.index,
       $.call,
@@ -110,6 +114,7 @@ module.exports = grammar({
       $.break,
       $.continue,
       $.unsafe,
+      $.directive,
       "nil", // TODO: remove this
     )),
 
@@ -351,6 +356,12 @@ module.exports = grammar({
     break: $ => prec.right(seq("break", optional($._expr))),
     continue: $ => prec.right(seq("continue", optional($._expr))),
     unsafe: $ => seq("unsafe", $._expr),
+
+    directive: $ => prec.right(seq(
+      "#",
+      field("name", alias($._ident_like, $.ident)),
+      optional(alias($._value, $.value)),
+    )),
 
     // -------
 
