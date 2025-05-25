@@ -177,7 +177,9 @@
 
 "return" @keyword.return
 
-[ "if" "else" ] @keyword.conditional
+[ "if" "then" "else" ] @keyword.conditional
+
+[ "and" "or" ] @keyword.operator
 
 [
   "match"

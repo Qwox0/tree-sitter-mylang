@@ -231,8 +231,8 @@ module.exports = grammar({
       prec.left(PREC.binop_bitxor, seq($._expr, "^", $._expr)),
       prec.left(PREC.binop_bitor, seq($._expr, "|", $._expr)),
       prec.left(PREC.binop_cmp, seq($._expr, choice("==", "!=", "<", "<=", ">", ">="), $._expr)),
-      prec.left(PREC.binop_and, seq($._expr, "&&", $._expr)),
-      prec.left(PREC.binop_or, seq($._expr, "||", $._expr)),
+      prec.left(PREC.binop_and, seq($._expr, choice("&&", "and"), $._expr)),
+      prec.left(PREC.binop_or, seq($._expr, choice("||", "or"), $._expr)),
     ),
     range: $ => choice(
       prec(PREC.range_with_start, seq(field("start", $._expr), $._range_tail)),
@@ -271,7 +271,7 @@ module.exports = grammar({
     if: $ => prec.right(seq(
       "if",
       field("cond", $._expr),
-      optional("do"),
+      optional(choice("then", "do")),
       field("then", $._expr),
       optional(seq("else", field("else", $._expr)))
     )),
