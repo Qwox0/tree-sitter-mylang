@@ -31,6 +31,16 @@ const PREC = {
   min: 0,
 };
 
+const escape_sequence = token.immediate(seq(
+  '\\',
+  choice(
+    /[^xu]/,
+    /u[0-9a-fA-F]{4}/,
+    /u\{[0-9a-fA-F]+\}/,
+    /x[0-9a-fA-F]{2}/,
+  ),
+));
+
 module.exports = grammar({
   name: "mylang",
 
@@ -130,14 +140,29 @@ module.exports = grammar({
       $.integer_literal,
       $.float_literal,
     ),
-    char_literal: _ => /'\\?.'/,
-    string_literal: _ => seq("\"", /[^"]*/, "\""),
+    char_literal: _ => token(seq(
+      optional('b'),
+      '\'',
+      optional(choice(
+        escape_sequence,
+        /[^\\']/,
+      )),
+      '\'',
+    )),
+    string_literal: $ => seq(
+      alias(/[bc]?"/, '"'),
+      repeat(choice(
+        alias(escape_sequence, $.escape_sequence),
+        $.string_content,
+      )),
+      token.immediate('"'),
+    ),
     multilinestring_literal: $ => prec.right(sep1($._newline, seq("\\\\", /.*/))),
     _newline: _ => /\n|\r|\r\n/,
 
     boolean_literal: _ => choice("true", "false"),
-    integer_literal: _ => /-?\d+/,
-    float_literal: _ => /-?\d+\.\d+/,
+    integer_literal: _ => /(0b|0o|0x)?\d+/,
+    float_literal: _ => /\d+\.\d+/,
 
     ptr_ty: $ => prec(PREC.preop, seq("*", optional("mut"), field("pointee_ty", $._expr))), // parsed via preop > deref
     slice_ty: $ => prec(PREC.preop, seq("[", "]", optional("mut"), field("elem_ty", $._expr))),
