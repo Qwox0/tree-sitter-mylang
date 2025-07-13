@@ -23,10 +23,10 @@ const PREC = {
   binop_or: 11,
   range_with_start: 10,
   range: 9,
+  pipe: 5,
   decl_ty: 4,
-  pipe: 4,
   assign: 3,
-  var_decl: 2,
+  decl: 2,
   if: 1,
   min: 0,
 };
@@ -101,8 +101,7 @@ module.exports = grammar({
       $.range,
       $.assign,
       $.binop_assign,
-      $.var_decl,
-      $.extern_decl,
+      $.decl,
       $.if,
       $.match,
       $.for,
@@ -166,7 +165,7 @@ module.exports = grammar({
     _newline: _ => /\n|\r|\r\n/,
 
     boolean_literal: _ => choice("true", "false"),
-    integer_literal: _ => /(0b|0o|0x)?\d+/,
+    integer_literal: _ => /(0b|0o|0x)?[0-9a-fA-F][0-9a-fA-F_]*/,
     float_literal: _ => /\d+\.\d+/,
 
     ptr_ty: $ => prec(PREC.preop, seq("*", optional("mut"), field("pointee_ty", $._expr))), // parsed via preop > deref
@@ -178,16 +177,13 @@ module.exports = grammar({
       field("params", choice(
         blank(),
         $._ident,
-        seq("(", optional(alias($._var_decl_list1, $.params)), ")")
+        seq("(", optional(alias($._decl_list1, $.params)), ")")
       )),
       "->",
-      choice(
+      seq(
+        optional(field("ret_ty", $._expr_except_block)),
         field("body", $._expr),
-        prec(-1, seq(
-          field("ret_ty", $._expr_except_block),
-          field("body", $._expr),
-        )),
-      )
+      ),
     )),
 
     parenthesis: $ => prec(0, seq("(", $._expr, ")")),
@@ -196,26 +192,32 @@ module.exports = grammar({
     struct_def: $ => seq(
       "struct",
       "{",
-      alias(optional($._var_decl_list1), $.fields),
+      sep(optional(choice(",", ";")), $._expr),
       "}",
     ),
     union_def: $ => seq(
       "union",
       "{",
-      alias(optional($._var_decl_list1), $.fields),
+      sep(optional(choice(",", ";")), $._expr),
       "}",
     ),
     enum_def: $ => seq(
       "enum",
       "{",
-      sep(choice(",", ";"), alias($._enum_def_variant, $.variant)),
+      sep(
+        optional(choice(",", ";")),
+        choice(
+          alias($._enum_def_variant, $.variant),
+          $._expr,
+        ),
+      ),
       "}",
     ),
-    _enum_def_variant: $ => seq(
+    _enum_def_variant: $ => prec.right(2, seq(
       field("name", $._ident),
       optional(seq("(", field("ty", $._expr), ")")),
       optional(seq("=", field("tag", $._expr)))
-    ),
+    )),
 
     pos_initializer: $ => initializer(
       field("lhs", $._expr),
@@ -237,7 +239,6 @@ module.exports = grammar({
       "]",
     ),
 
-    //dot: $ => prec(PREC.postop, seq(optional($._expr), ".", $._ident)),
     dot: $ => prec(PREC.postop, seq(field("lhs", $._expr), ".", field("rhs", $._ident))),
     index: $ => prec(PREC.postop, seq(field("lhs", $._expr), "[", field("idx", $._expr), "]")),
     call: $ => prec(PREC.postop, seq(
@@ -252,7 +253,7 @@ module.exports = grammar({
     ),
 
     preop: $ => prec(PREC.preop, seq(
-      choice("&", seq("&", "mut"), /* "*", */ "!", "-"),
+      choice("&", seq("&", "mut"), /* "*", */ "!", "-", "xx"),
       $._expr,
     )),
     postop: $ => prec.left(PREC.postop, seq(
@@ -283,30 +284,29 @@ module.exports = grammar({
       optional(field("end", $._expr)),
     )),
     assign: $ => prec.right(PREC.assign, seq(
-      $._expr, "=", $._expr,
+      field("lhs", $._expr),
+      "=",
+      field("rhs", $._expr),
     )),
     binop_assign: $ => prec.right(PREC.assign, seq(
-      $._expr, choice("*=", "/=", "%=", "+=", "-=", "<<=", ">>=", "&=", "^=", "|=", "&&=", "||="), $._expr,
+      field("lhs", $._expr),
+      choice("*=", "/=", "%=", "+=", "-=", "<<=", ">>=", "&=", "^=", "|=", "&&=", "||="),
+      field("rhs", $._expr),
     )),
 
-    /** use like this: `optional($._var_decl_list1)` */
-    _var_decl_list1: $ => prec(2, sep1(choice(",", ";"), $.var_decl)),
-    var_decl: $ => prec.left(PREC.var_decl, seq(
-      repeat(choice("pub", "mut", "rec")),
-      field("name", $._ident),
+    decl: $ => prec.right(PREC.decl, seq(
+      repeat(choice("pub", "mut", "rec", "static", "extern")),
+      field("name", choice($._ident, $.dot)),
       choice(
-        seq(":", field("ty", $._expr)),
-        seq(":", field("ty", $._expr), choice(token(prec(2, ":")), token(prec(2, "="))), field("default", $._expr)),
-        seq(choice("::", ":="), field("default", $._expr)),
+        seq(":", field("ty", $._expr), optional(seq(
+          choice(token(prec(PREC.decl_ty, "=")), field("is_const", token(prec(PREC.decl_ty, ":")))),
+          field("init", $._expr)),
+        )),
+        seq(choice(":=", field("is_const", "::")), field("init", $._expr)),
       ),
     )),
-
-    extern_decl: $ => seq(
-      "extern",
-      field("name", $._ident),
-      ":",
-      field("ty", $._expr),
-    ),
+    /** use like this: `optional($._decl_list1)` */
+    _decl_list1: $ => prec(2, sep1(choice(",", ";"), $.decl)),
 
     if: $ => prec.right(seq(
       "if",
@@ -359,7 +359,7 @@ module.exports = grammar({
 
     directive: $ => prec.right(seq(
       "#",
-      field("name", alias($._ident_like, $.ident)),
+      field("name", $._ident),
       optional(alias($._value, $.value)),
     )),
 
@@ -371,21 +371,11 @@ module.exports = grammar({
       '//',
       choice(
         seq(token.immediate(prec(2, "//")), /.*/),
-        seq(token.immediate(prec(2, choice("!", "/"))), alias(/.*/, $.doc_comment)),
+        // The trailing '\n' in doc_comments is needed for correct highlight injections.
+        seq(token.immediate(prec(2, choice("!", "/"))), alias(token.immediate(/.*\n?/), $.doc_comment)),
         /.*/,
       ),
     ),
-
-    // block_comment: $ => seq(
-    //   "/*",
-    //   choice(
-    //     seq(token.immediate(prec(2, "**"))),
-    //     seq(token.immediate(prec(2, choice("!", "*"))), alias(/.*/, $.doc_comment)),
-    //     blank(),
-    //   ),
-    //   $._block_comment_content, // TODO: multiline; nested comments
-    //   "*/",
-    // ),
 
     block_comment: $ => seq(
       '/*',
@@ -393,7 +383,7 @@ module.exports = grammar({
         choice(
           // Documentation block comments: /** docs */ or /*! docs */
           seq(
-            choice("!", "*"),
+            $._block_doc_comment_marker,
             optional(field('doc', alias($._block_comment_content, $.doc_comment))),
           ),
           // Non-doc block comments
@@ -401,6 +391,11 @@ module.exports = grammar({
         ),
       ),
       '*/',
+    ),
+
+    _block_doc_comment_marker: $ => choice(
+      field('outer', alias($._outer_block_doc_comment_marker, $.outer_doc_comment_marker)),
+      field('inner', alias($._inner_block_doc_comment_marker, $.inner_doc_comment_marker)),
     ),
   }
 });

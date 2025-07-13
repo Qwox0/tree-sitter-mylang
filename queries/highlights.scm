@@ -1,83 +1,43 @@
 ; see `:help treesitter-highlight-groups`
 
-; Identifier
+; ------------------
+; Variables
 
 (ident) @variable
-; "self" @variable.builtin
 
-(var_decl ty: (ident) @type)
-(extern_decl ty: (ident) @type)
-(fn ret_ty: (ident) @type)
-(extern_decl ty: (fn body: (ident) @type))
-(ptr_ty pointee_ty: (ident) @type)
-(slice_ty elem_ty: (ident) @type)
-(array_ty elem_ty: (ident) @type)
-(variant ty: (ident) @type)
-(primitive_type) @type.builtin
+"nil" @variable.builtin ; TODO: remove this
 
-(var_decl
-  name: (ident) @type.definition
-  default: [ (struct_def) (union_def) (enum_def) ])
-(var_decl
-  name: (ident) @function
-  default: (fn))
-(extern_decl
-  name: (ident) @function
-  ty: (fn))
+(params (decl name: (ident) @variable.parameter))
 
-(params (var_decl name: (ident) @variable.parameter))
-(fields (var_decl name: (ident) @variable.member))
+(struct_def (decl name: (ident) @variable.member !is_const))
+(union_def (decl name: (ident) @variable.member !is_const))
 (dot rhs: (ident) @variable.member)
-(variant name: (ident) @constant)
+(named_initializer (field var: (ident) @variable.member))
 
-(pos_initializer
-  lhs: (ident) @type
-  (#match? @type "^[A-Z]"))
-(named_initializer
-  lhs: (ident) @type
-  (#match? @type "^[A-Z]"))
-(named_initializer
-  (field
-    var: (ident) @variable.member))
+(decl "mut" name: (ident) @variable.mutable) ; custom capture
+
+; ------------------
+; Constants
+
+(decl name: (ident) @constant is_const: _)
+(variant name: (ident) @constant)
 
 ; Assume all-caps names are constants
 ((ident) @constant
- (#match? @constant "^[A-Z][A-Z\\d_]+$'"))
+  (#match? @constant "^[A-Z][A-Z\\d_]+$"))
 
-; Assume uppercase names are enum constructors
-; ((ident) @constructor
-;  (#match? @constructor "^[A-Z]"))
+(decl
+  name: (ident) @module
+  init: (directive
+    name: (_) @directive_name
+    (#eq? @directive_name "import")))
 
-; ; Assume that uppercase names in paths are types
-; ((scoped_identifier
-;   path: (identifier) @type)
-;  (#match? @type "^[A-Z]"))
-; ((scoped_identifier
-;   path: (scoped_identifier
-;     name: (identifier) @type))
-;  (#match? @type "^[A-Z]"))
-; ((scoped_type_identifier
-;   path: (identifier) @type)
-;  (#match? @type "^[A-Z]"))
-; ((scoped_type_identifier
-;   path: (scoped_identifier
-;     name: (identifier) @type))
-;  (#match? @type "^[A-Z]"))
-;
-; ; Assume all qualified names in struct patterns are enum constructors. (They're
-; ; either that, or struct names; highlighting both as constructors seems to be
-; ; the less glaring choice of error, visually.)
-; (struct_pattern
-;   type: (scoped_type_identifier
-;     name: (type_identifier) @constructor))
-
-; Literal
-
+; ------------------
+; Literals
 
 (string_literal) @string
 (multilinestring_literal) @string
 (escape_sequence) @string.escape
-; (raw_string_literal) @string
 
 (char_literal) @character
 
@@ -85,44 +45,55 @@
 (integer_literal) @number
 (float_literal) @number.float
 
-; Function calls
+; ------------------
+; Types
+
+(decl ty: (ident) @type)
+(variant ty: (ident) @type)
+(fn ret_ty: (ident) @type)
+(ptr_ty pointee_ty: (ident) @type)
+(slice_ty elem_ty: (ident) @type)
+(array_ty elem_ty: (ident) @type)
+
+(pos_initializer
+  lhs: (ident) @type
+  (#match? @type "^[A-Z]"))
+(named_initializer
+  lhs: (ident) @type
+  (#match? @type "^[A-Z]"))
+
+(decl
+  name: (ident) @type
+  init: (primitive_type))
+
+(primitive_type) @type.builtin
+
+(decl
+  name: (ident) @type.definition
+  init: [ (struct_def) (union_def) (enum_def) ])
+
+; ------------------
+; Functions
+
+(decl
+  name: (ident) @function
+  init: (fn))
+(decl
+  name: (ident) @function
+  ty: (fn))
+(decl
+  name: (dot
+    rhs: (ident) @function.method)
+  init: (fn))
 
 (call
   fn: (ident) @function.call)
 (call
   fn: (dot
-    rhs: (ident) @function.method))
-; (call_expression
-;   function: (scoped_identifier
-;     "::"
-;     name: (identifier) @function))
-;
-; (generic_function
-;   function: (identifier) @function)
-; (generic_function
-;   function: (scoped_identifier
-;     name: (identifier) @function))
-; (generic_function
-;   function: (field_expression
-;     field: (field_identifier) @function.method))
-;
-; (macro_invocation
-;   macro: (identifier) @function.macro
-;   "!" @function.macro)
-;
-; ; Function definitions
-;
-; (function_item (identifier) @function)
-; (function_signature_item (identifier) @function)
+    rhs: (ident) @function.method.call))
 
-; Directives
-
-(directive
-  "#" @keyword.directive
-  name: (ident) @keyword.directive)
-
-
-; Operator
+; ------------------
+; Operators
 
 [
   "*"
@@ -163,9 +134,22 @@
   "!"
   "-"
   "?"
+  "xx"
 ] @operator
 
+; ------------------
 ; Keywords
+
+[
+  "match"
+  "defer"
+  "do"
+  "break"
+  "continue"
+  "unsafe"
+] @keyword
+
+[ "and" "or" ] @keyword.operator
 
 [
   "enum"
@@ -178,26 +162,24 @@
   "pub"
   "mut"
   "rec"
+  "static"
 ] @keyword.modifier
 
 [ "for" "while" ] @keyword.repeat
-(for "in" @keyword)
+(for "in" @keyword.repeat)
 
 "return" @keyword.return
 
 [ "if" "then" "else" ] @keyword.conditional
 
-[ "and" "or" ] @keyword.operator
+; ------------------
+; Directives
 
-[
-  "match"
-  "defer"
-  "do"
-  "break"
-  "continue"
-  "unsafe"
-] @keyword
+(directive
+  "#" @keyword.directive
+  name: (ident) @keyword.directive)
 
+; ------------------
 ; Punctuation
 
 [
@@ -223,9 +205,10 @@
   ";"
 ] @punctuation.delimiter
 
-(line_comment) @comment
-(block_comment) @comment
-(line_comment (doc_comment)) @comment.documentation
-(block_comment (doc_comment)) @comment.documentation
+; ------------------
+; Comments
 
-"nil" @variable.builtin ; TODO: remove this
+((line_comment) @comment (#set! priority 90))
+((block_comment) @comment (#set! priority 90))
+((line_comment (doc_comment)) @comment.documentation (#set! priority 90))
+((block_comment (doc_comment)) @comment.documentation (#set! priority 90))
