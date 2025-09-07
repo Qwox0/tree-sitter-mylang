@@ -36,7 +36,7 @@
 ; Literals
 
 (string_literal) @string
-(multilinestring_literal) @string
+((multilinestring_literal) @string (#set! priority 80)) ; priority must be lower than for comments
 (escape_sequence) @string.escape
 
 (char_literal) @character
@@ -62,15 +62,15 @@
   lhs: (ident) @type
   (#match? @type "^[A-Z]"))
 
-(decl
-  name: (ident) @type
-  init: (primitive_type))
-
 (primitive_type) @type.builtin
 
 (decl
   name: (ident) @type.definition
-  init: [ (struct_def) (union_def) (enum_def) ])
+  init: [ (primitive_type) (struct_def) (union_def) (enum_def) ])
+(decl
+  name: (dot
+    rhs: (ident) @type.definition)
+  init: [ (primitive_type) (struct_def) (union_def) (enum_def) ])
 
 ; ------------------
 ; Functions
@@ -149,7 +149,7 @@
   "unsafe"
 ] @keyword
 
-[ "and" "or" ] @keyword.operator
+[ "not" "and" "or" ] @keyword.operator
 
 [
   "enum"

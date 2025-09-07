@@ -253,7 +253,7 @@ module.exports = grammar({
     ),
 
     preop: $ => prec(PREC.preop, seq(
-      choice("&", seq("&", "mut"), /* "*", */ "!", "-", "xx"),
+      choice("&", seq("&", "mut"), /* "*", */ "!", "not", "-", "xx"),
       $._expr,
     )),
     postop: $ => prec.left(PREC.postop, seq(
